@@ -15,8 +15,9 @@
 - 消息序列化
 - javassist动态生成字节码
 - JDK动态代理
-- 自定义Spring Starter（未完成）
-- 
+- 自定义Spring Starter（待完成）
+
+
 
 ## 🌽 下载Etcd
 
@@ -124,7 +125,7 @@ rj.rpc.registe.serializerType=FASTJSON
 
 
 
-> ### Spring Starter（未完成）
+> ### Spring Starter（待完成）
 
 ~~~properties
 # 调用远程
