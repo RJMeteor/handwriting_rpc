@@ -1,3 +1,0 @@
-free=com.renjia.rpc.loadBalancer.FreeLoadBalancer
-poll=com.renjia.rpc.loadBalancer.PollLoadBalancer
-random=com.renjia.rpc.loadBalancer.RandomLoadBalancer

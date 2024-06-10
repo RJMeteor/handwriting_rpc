@@ -1,2 +1,0 @@
-fixed=com.renjia.rpc.retry.FixedIntervalRetryStrategy
-no=com.renjia.rpc.retry.NoRetryStrategy
