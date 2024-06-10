@@ -1,0 +1,3 @@
+json=com.renjia.rpc.serializer.FastjsonSerializer
+hessian=com.renjia.rpc.serializer.HessianSerializer
+kryo=com.renjia.rpc.serializer.KryoSerializer
