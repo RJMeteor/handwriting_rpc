@@ -30,10 +30,6 @@ public abstract class StorageRegisterInfo extends ContextInit {
     public static ContextInitConfig initConfig;
 
 
-    public StorageRegisterInfo() {
-        initConfig = initContextConfig();
-    }
-
     @Override
     protected void startRegister() {
         Register register = LoadResourceFactory.load(Register.class, initConfig.getRegiste().getRegisterType().getType());
@@ -53,8 +49,9 @@ public abstract class StorageRegisterInfo extends ContextInit {
     @SneakyThrows
     @Override
     protected void start() {
+        initConfig = initContextConfig();
         if (!this.isVertxEnvironment()) {
-            service.execute(() -> startRegister());
+            this.startRegister();
             return;
         }
         vertx = Vertx.vertx();
@@ -81,6 +78,7 @@ public abstract class StorageRegisterInfo extends ContextInit {
     @SneakyThrows
     protected ContextInitConfig initContextConfig() {
         ContextInitConfig contextInitConfig = new Config();
+        contextInitConfig.setRegiste(new ContextInitConfig.Registe());
         ContextInitConfig.Registe registe = contextInitConfig.getRegiste();
         Props props = new Props(configFilePath);
         contextInitConfig.setHost(props.getProperty("ri.rpc.host", contextInitConfig.getHost()));

@@ -23,6 +23,7 @@ public @interface RpcFetch {
     //负载均衡器
     LoadBalancer.Type loadBalancer() default LoadBalancer.Type.RANDOM;
 
+    //重试机制
     Retry.Type retry() default Retry.Type.NO;
 
     //容错，降级

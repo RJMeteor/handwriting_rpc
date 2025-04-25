@@ -1,0 +1,7 @@
+server:
+  port: 8083
+rpc:
+  registe:
+    enable: false
+    server-name: renjia
+

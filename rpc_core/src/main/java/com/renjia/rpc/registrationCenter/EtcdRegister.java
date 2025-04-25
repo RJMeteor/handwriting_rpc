@@ -56,7 +56,7 @@ public class EtcdRegister implements Register {
                     getOption)
                     .get()
                     .getKvs();
-//            // 解析服务信息
+             // 解析服务信息
             List<String> serviceMetaInfoList = keyValues.stream()
                     .filter(keyValue -> keyValue.getKey().toString(StandardCharsets.UTF_8) != serverId)
                     .map(keyValue -> {

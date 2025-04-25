@@ -3,20 +3,25 @@ package com.renjia.rpc.protocol;
 import cn.hutool.core.util.IdUtil;
 import com.renjia.rpc.anno.RequestInfo;
 import com.renjia.rpc.anno.RpcFetch;
-import com.renjia.rpc.core.VertxHttpClient;
+import com.renjia.rpc.core.HttpClient;
 import com.renjia.rpc.factory.LoadResourceFactory;
 import com.renjia.rpc.retry.Retry;
 import com.renjia.rpc.tolerant.FaultTolerant;
+import lombok.SneakyThrows;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.util.HashMap;
 
 public class RequestInvocationHandler implements InvocationHandler {
 
     private Class target;
+    private  HttpClient client;
 
-    public RequestInvocationHandler(Class target) {
+    public RequestInvocationHandler(Class target,HttpClient client) {
         this.target = target;
+        this.client = client;
     }
 
     @Override
@@ -25,6 +30,8 @@ public class RequestInvocationHandler implements InvocationHandler {
         RpcFetch rpcFetch = Class.forName(target.getName()).getAnnotation(RpcFetch.class);
         //构建基本请求
         RpcProtocol protocol = RpcProtocol.builder()
+                .method(method)
+                .returnType(method.getReturnType())
                 .serverName(rpcFetch.serverName())
                 .loadBalancer(rpcFetch.loadBalancer())
                 .retry(rpcFetch.retry())
@@ -40,7 +47,7 @@ public class RequestInvocationHandler implements InvocationHandler {
 
         RpcProtocol rpcProtocol = null;
         try {
-            rpcProtocol = retry.doRetry(() -> VertxHttpClient.doRequest(protocol));
+            rpcProtocol = retry.doRetry(() -> client.request(protocol));
         } catch (Exception e) {
             FaultTolerant faultTolerant = (FaultTolerant) protocol.getTolerant().newInstance();
             return faultTolerant.tolerant();

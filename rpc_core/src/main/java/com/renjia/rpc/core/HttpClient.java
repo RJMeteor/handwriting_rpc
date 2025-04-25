@@ -12,7 +12,6 @@ import io.vertx.core.MultiMap;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.buffer.impl.BufferImpl;
-import io.vertx.core.http.HttpClient;
 import io.vertx.core.http.HttpClientRequest;
 import lombok.SneakyThrows;
 
@@ -21,10 +20,10 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 
-public class VertxHttpClient {
+public class HttpClient {
 
     @SneakyThrows
-    public static RpcProtocol doRequest(RpcProtocol rpcProtocol) throws InterruptedException, ExecutionException {
+    public RpcProtocol request(RpcProtocol rpcProtocol) throws InterruptedException, ExecutionException {
         Register register = LoadResourceFactory.load(Register.class, StorageRegisterInfo.initConfig.getRegiste().getRegisterType().getType());
         LoadBalancer loadBalancer = LoadResourceFactory.load(LoadBalancer.class, rpcProtocol.getLoadBalancer().getType());
 
@@ -36,19 +35,25 @@ public class VertxHttpClient {
         else if (discovery.size() != 1) choice = loadBalancer.choice(discovery);
         else choice = discovery.get(0);
 
-        register.register(rpcProtocol.getServerName(),(String)choice);
+        register.register(rpcProtocol.getServerName(), (String) choice);
 
-        CompletableFuture<RpcProtocol> responseFuture = new CompletableFuture<>();
 
         String[] split = ((String) choice).split(":");
 
+        return this.doRequest(rpcProtocol, split);
+    }
+
+    @SneakyThrows
+    protected RpcProtocol doRequest(RpcProtocol rpcProtocol, String hostname[]) {
+        CompletableFuture<RpcProtocol> responseFuture = new CompletableFuture<>();
+
         Vertx vertx = Vertx.vertx();
 
-        HttpClient httpClient = vertx.createHttpClient();
+        io.vertx.core.http.HttpClient httpClient = vertx.createHttpClient();
 
         httpClient.request(RouterInit.REQUESTTYPE.get(rpcProtocol.getRequestType()),
-                Integer.parseInt(split[1]),
-                split[0],
+                Integer.parseInt(hostname[1]),
+                hostname[0],
                 rpcProtocol.getRequestUrl(), new HanlderComplx(rpcProtocol, responseFuture));
         RpcProtocol result = responseFuture.get();
         return result;

@@ -23,7 +23,7 @@ public abstract class ContextInitConfig {
     //远程调度者扫描包
     private String remoteScanPackge;
 
-    private Registe registe = new Registe();
+    private Registe registe;
 
     {
         try {

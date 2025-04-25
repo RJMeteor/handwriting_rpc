@@ -7,6 +7,7 @@
     <groupId>org.example</groupId>
     <artifactId>rpc_core</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
     <dependencies>
         <!--https://developer.aliyun.com/article/1257984-->
         <!--https://www.cnblogs.com/jamstack/p/17036072.html-->
@@ -71,6 +72,12 @@
             <groupId>org.javassist</groupId>
             <artifactId>javassist</artifactId>
             <version>3.28.0-GA</version>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

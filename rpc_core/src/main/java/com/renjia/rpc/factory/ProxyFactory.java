@@ -2,6 +2,7 @@ package com.renjia.rpc.factory;
 
 import cn.hutool.core.lang.hash.Hash;
 import com.renjia.rpc.anno.RpcExposure;
+import com.renjia.rpc.core.HttpClient;
 import com.renjia.rpc.core.JavassistInstance;
 import com.renjia.rpc.protocol.RequestInvocationHandler;
 import lombok.SneakyThrows;
@@ -19,7 +20,7 @@ public class ProxyFactory {
         if (cache != null) return (T) cache;
         Class<?> proxyClass = Proxy.getProxyClass(target.getClassLoader(), target.getInterfaces());
         Constructor<?> constructor = proxyClass.getConstructor(InvocationHandler.class);
-        Object t = constructor.newInstance(new RequestInvocationHandler(target));
+        Object t = constructor.newInstance(new RequestInvocationHandler(target, new HttpClient()));
         Object put = cacheProxy.put(target, t);
         return (T) t;
     }

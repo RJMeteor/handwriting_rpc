@@ -1,0 +1,6 @@
+server:
+  port: 8082
+rpc:
+  registe:
+    enable: true
+    server-name: producer

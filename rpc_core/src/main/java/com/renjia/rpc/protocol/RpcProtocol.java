@@ -6,8 +6,11 @@ import com.renjia.rpc.retry.Retry;
 import com.renjia.rpc.serializer.Serializer;
 import com.renjia.rpc.tolerant.FaultTolerant;
 import lombok.*;
+import sun.reflect.generics.tree.ReturnType;
 
 import java.io.Serializable;
+import java.lang.reflect.Method;
+import java.util.HashMap;
 
 @Data
 @ToString
@@ -16,6 +19,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class RpcProtocol implements Serializable {
     private static final long serialVersionUID = 1L;
+    private Method method;
+    private Class returnType;
     //服务名
     private String serverName;
     //调用目标URL
@@ -31,7 +36,7 @@ public class RpcProtocol implements Serializable {
     //服务地址
     private String address;
     //方法参数列表
-    private Object args[];
+    private Object[] args;
     //消息体
     private Body body;
     //请求ID
