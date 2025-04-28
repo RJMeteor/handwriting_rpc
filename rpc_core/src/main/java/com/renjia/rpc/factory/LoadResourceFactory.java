@@ -47,7 +47,7 @@ public class LoadResourceFactory {
         return null;
     }
 
-    public <T> void register(Class<T> group, String key, Object resource) {
+    public static<T> void register(Class<T> group, String key, Object resource) {
         Optional.ofNullable(RESOURCEMAPPING.get(group.getName()))
                 .orElseGet(() -> RESOURCEMAPPING.put(group.getName(), new HashMap<String, Object>()))
                 .put(key, resource);

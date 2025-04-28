@@ -7,7 +7,13 @@ import java.util.List;
 
 public interface LoadBalancer {
 
-    Object choice(List<String> chaices);
+    default Object choice(List<String> chaices){
+        if (chaices == null) return null;
+        else if (chaices.size() != 1) return doChoice(chaices);
+        else return chaices.get(0);
+    }
+
+    Object doChoice(List<String> chaices);
 
     @Getter
     public enum Type implements Serializable {

@@ -9,7 +9,7 @@ import java.util.*;
  */
 public class FreeLoadBalancer implements LoadBalancer {
     @Override
-    public Object choice(List<String> chaices) {
+    public Object doChoice(List<String> chaices) {
         ArrayList<String> strings = new ArrayList<>();
         for (String chaice : chaices) {
             strings.add(chaice);

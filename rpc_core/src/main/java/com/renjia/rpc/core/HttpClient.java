@@ -29,22 +29,20 @@ public class HttpClient {
 
         List<String> discovery = register.discovery(rpcProtocol.getServerName());
 
-        Object choice = null;
-
-        if (discovery == null) return null;
-        else if (discovery.size() != 1) choice = loadBalancer.choice(discovery);
-        else choice = discovery.get(0);
+        Object choice = loadBalancer.choice(discovery);
 
         register.register(rpcProtocol.getServerName(), (String) choice);
 
 
-        String[] split = ((String) choice).split(":");
+        String[] hostname = ((String) choice).split(":");
+        rpcProtocol.setIp(hostname[0]);
+        rpcProtocol.setPort(hostname[1]);
 
-        return this.doRequest(rpcProtocol, split);
+        return this.doRequest(rpcProtocol);
     }
 
     @SneakyThrows
-    protected RpcProtocol doRequest(RpcProtocol rpcProtocol, String hostname[]) {
+    protected RpcProtocol doRequest(RpcProtocol rpcProtocol) {
         CompletableFuture<RpcProtocol> responseFuture = new CompletableFuture<>();
 
         Vertx vertx = Vertx.vertx();
@@ -52,8 +50,8 @@ public class HttpClient {
         io.vertx.core.http.HttpClient httpClient = vertx.createHttpClient();
 
         httpClient.request(RouterInit.REQUESTTYPE.get(rpcProtocol.getRequestType()),
-                Integer.parseInt(hostname[1]),
-                hostname[0],
+                Integer.parseInt(rpcProtocol.getPort()),
+                rpcProtocol.getIp(),
                 rpcProtocol.getRequestUrl(), new HanlderComplx(rpcProtocol, responseFuture));
         RpcProtocol result = responseFuture.get();
         return result;

@@ -9,7 +9,7 @@ public class PollLoadBalancer implements LoadBalancer{
 
 
     @Override
-    public Object choice(List<String> chaices) {
+    public Object doChoice(List<String> chaices) {
         return null;
     }
 }

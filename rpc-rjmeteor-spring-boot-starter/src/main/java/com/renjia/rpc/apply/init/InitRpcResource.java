@@ -14,7 +14,6 @@ public class InitRpcResource extends StorageRegisterInfo implements ApplicationL
     private SpringStaterRpcBeanServerConfig config;
     private Environment environment;
 
-    @Autowired
     public InitRpcResource(SpringStaterRpcBeanServerConfig config) {
         this.config = config;
     }
