@@ -19,8 +19,12 @@ import java.util.HashMap;
 @NoArgsConstructor
 public class RpcProtocol implements Serializable {
     private static final long serialVersionUID = 1L;
-    // 调用代理的方法
-    private Method method;
+    // 调用代理的方法名
+    private String methodName;
+    // 调用代理的全限定名
+    private String methodClass;
+    // 调用代理的方法参数类型列表
+    private Class[] paramType;
     // 调用代理的方法的返回值类型
     private Class returnType;
     // 调用目标ip地址

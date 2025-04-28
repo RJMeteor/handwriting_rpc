@@ -30,7 +30,9 @@ public class RequestInvocationHandler implements InvocationHandler {
         RpcFetch rpcFetch = Class.forName(target.getName()).getAnnotation(RpcFetch.class);
         //构建基本请求
         RpcProtocol protocol = RpcProtocol.builder()
-                .method(method)
+                .methodName(method.getName())
+                .methodClass(method.getDeclaringClass().getName())
+                .paramType(method.getParameterTypes())
                 .returnType(method.getReturnType())
                 .serverName(rpcFetch.serverName())
                 .loadBalancer(rpcFetch.loadBalancer())

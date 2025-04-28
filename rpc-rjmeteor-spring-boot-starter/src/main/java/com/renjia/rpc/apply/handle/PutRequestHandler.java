@@ -3,6 +3,7 @@ package com.renjia.rpc.apply.handle;
 import com.alibaba.fastjson.JSON;
 import com.renjia.rpc.anno.RequestInfo;
 import com.renjia.rpc.protocol.RpcProtocol;
+import lombok.SneakyThrows;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.DefaultParameterNameDiscoverer;
@@ -10,17 +11,20 @@ import org.springframework.core.ParameterNameDiscoverer;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 
 public class PutRequestHandler extends RequestHandler {
 
+    @SneakyThrows
     @Override
     public void handle(RpcProtocol rpcProtocol, CompletableFuture<RpcProtocol> complet) {
         // 创建 LocalVariableTableParameterNameDiscoverer 实例
         ParameterNameDiscoverer discoverer = new DefaultParameterNameDiscoverer();
         // 获取参数名
-        String[] parameterNames = discoverer.getParameterNames(rpcProtocol.getMethod());
+        Method method = Class.forName(rpcProtocol.getMethodClass()).getMethod(rpcProtocol.getMethodName(), rpcProtocol.getParamType());
+        String[] parameterNames = discoverer.getParameterNames(method);
         Object[] args = rpcProtocol.getArgs();
 
         String requestUrl = new StringBuilder("http://").append(rpcProtocol.getIp())
