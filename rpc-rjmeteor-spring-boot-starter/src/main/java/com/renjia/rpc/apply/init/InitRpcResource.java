@@ -1,6 +1,7 @@
 package com.renjia.rpc.apply.init;
 
 
+import com.alibaba.fastjson.JSON;
 import com.renjia.rpc.core.Config;
 import com.renjia.rpc.core.ContextInitConfig;
 import com.renjia.rpc.core.StorageRegisterInfo;
@@ -32,7 +33,8 @@ public class InitRpcResource extends StorageRegisterInfo implements ApplicationL
     protected ContextInitConfig initContextConfig() {
         ContextInitConfig contextInitConfig = new Config();
         contextInitConfig.setPort(environment.getProperty("server.port", Integer.class));
-        contextInitConfig.setRegiste(this.config.getRegiste());
+        String jsonString = JSON.toJSONString(this.config.getRegiste());
+        contextInitConfig.setRegiste(JSON.parseObject(jsonString, ContextInitConfig.Registe.class));
         return contextInitConfig;
     }
 

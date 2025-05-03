@@ -1,6 +1,7 @@
 package com.renjia.sourcecode_java;
 
 import com.renjia.rpc.apply.EnableRPCAutoServer;
+import com.renjia.rpc.core.ContextInitConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

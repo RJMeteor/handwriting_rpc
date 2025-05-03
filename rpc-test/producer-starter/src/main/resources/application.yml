@@ -4,3 +4,5 @@ rpc:
   registe:
     enable: true
     server-name: producer
+    register-type: etcd
+    serializer-type: hessian

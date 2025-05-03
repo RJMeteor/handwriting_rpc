@@ -10,7 +10,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 @Data
-public abstract class ContextInitConfig {
+public class ContextInitConfig {
     //服务公开ip
     private String host;
 
