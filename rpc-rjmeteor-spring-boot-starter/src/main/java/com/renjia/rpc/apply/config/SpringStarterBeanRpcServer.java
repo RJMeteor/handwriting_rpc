@@ -1,5 +1,6 @@
 package com.renjia.rpc.apply.config;
 
+import com.renjia.rpc.anno.RpcFetch;
 import com.renjia.rpc.apply.EnableRPCAutoServer;
 import com.renjia.rpc.apply.ProxyRpcFactoryBean;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
@@ -15,6 +16,7 @@ import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.core.type.filter.AssignableTypeFilter;
 import org.springframework.util.ClassUtils;
 
+import java.util.Arrays;
 import java.util.Set;
 
 @ConditionalOnClass(name = {"org.springframework.web.servlet.DispatcherServlet"})
@@ -39,7 +41,7 @@ public class SpringStarterBeanRpcServer implements ImportBeanDefinitionRegistrar
                 try {
                     // 使用 Spring 的 ClassUtils 获取类加载器来加载类
                     Class<?> clazz = ClassUtils.forName(className, ClassUtils.getDefaultClassLoader());
-                    return clazz.isInterface();
+                    return clazz.isInterface() && Arrays.stream(clazz.getAnnotations()).anyMatch((anno)->anno.annotationType().equals(RpcFetch.class));
                 } catch (ClassNotFoundException e) {
                     return false;
                 }
